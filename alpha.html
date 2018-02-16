@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        float: right;
+        height: 50%;
+        width: 25%;
+       }
+       #pano {
+         float: left;
+         height: 100%;
+         width: 75%;
+       }
+       #top-bar {
+         position: fixed;
+         bottom: 0;
+         right: 0;
+         height: 50%;
+         width: 25%;
+         background-color: black;
+       }
+       #score {
+         color: white;
+       }
+       html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='top-bar'>
+      <button type="button" onclick="makeGuess()">Make Guess</button>
+      <p id="score">Score: </p>
+    </div>
+    <div id="pano"></div>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var uluru = {lat: 37.869260, lng: -122.254811};
+        var marker;
+        //create the map
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 0,
+          center: uluru
+        });
+        //create the Street View Panorama
+        var pano = new google.maps.StreetViewPanorama(document.getElementById('pano'), {
+              position: uluru,
+              pov: {heading: 0, pitch: 0},
+              zoom: 1,
+              addressControl: false
+            });
+        /*
+        * Adds a click event listener to the map.
+        *   If a marker has not been placed yet, place one at location of click;
+        *   otherwise change position of marker to click location.
+        */
+        google.maps.event.addListener(map, 'click', function(event) {
+          if (typeof marker === 'undefined') {
+            marker = new google.maps.Marker({
+              position: event.latLng,
+              map: map
+            });
+          } else {
+            marker.setPosition(event.latLng);
+          };
+        });
+      }
+    </script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAId2iwSVkGJI9KGZ_B9AgDs44UeV1nQ2s&callback=initMap"></script>
+  </body>
+</html>

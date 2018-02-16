@@ -1,0 +1,4 @@
+Google Maps Javascript API Key: AIzaSyAId2iwSVkGJI9KGZ_B9AgDs44UeV1nQ2s
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAId2iwSVkGJI9KGZ_B9AgDs44UeV1nQ2s&callback=initMap"
+  type="text/javascript"></script>
