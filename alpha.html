@@ -3,11 +3,14 @@
   <head>
     <style>
        #map{
-
+         float: right;
+         height: 95%;
+         width: 50%;
        }
        #pano {
+         float: left;
          height: 95%;
-         width: 100%;
+         width: 50%;
        }
        #top-bar {
          position: fixed;
@@ -44,7 +47,7 @@
         var marker;
         //create the map
         var map = new google.maps.Map(document.getElementById('map'), {
-          //streetViewControl = false,
+
           zoom: 0,
           center: location
         });
@@ -54,7 +57,6 @@
               zoom: 0,
               addressControl: false
             });
-        map.setStreetView(pano);
         /*
         * Adds a click event listener to the map.
         *   If a marker has not been placed yet, place one at location of click;
