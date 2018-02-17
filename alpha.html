@@ -2,22 +2,19 @@
 <html>
   <head>
     <style>
-       #map {
-        float: right;
-        height: 50%;
-        width: 25%;
+       #map{
+
        }
        #pano {
-         float: left;
-         height: 100%;
-         width: 75%;
+         height: 95%;
+         width: 100%;
        }
        #top-bar {
          position: fixed;
          bottom: 0;
          right: 0;
-         height: 50%;
-         width: 25%;
+         height: 5%;
+         width: 100%;
          background-color: black;
        }
        #score {
@@ -39,21 +36,25 @@
     <div id="pano"></div>
     <div id="map"></div>
     <script>
+      /*function makeGuess(){
+        document.getElementById('pano').style.height = 90%;
+      }*/
       function initMap() {
-        var uluru = {lat: 37.869260, lng: -122.254811};
+        var location = {lat: 37.869260, lng: -122.254811};
         var marker;
         //create the map
         var map = new google.maps.Map(document.getElementById('map'), {
+          //streetViewControl = false,
           zoom: 0,
-          center: uluru
+          center: location
         });
         //create the Street View Panorama
         var pano = new google.maps.StreetViewPanorama(document.getElementById('pano'), {
-              position: uluru,
-              pov: {heading: 0, pitch: 0},
-              zoom: 1,
+              position: location,
+              zoom: 0,
               addressControl: false
             });
+        map.setStreetView(pano);
         /*
         * Adds a click event listener to the map.
         *   If a marker has not been placed yet, place one at location of click;
@@ -69,6 +70,11 @@
             marker.setPosition(event.latLng);
           };
         });
+      }
+    </script>
+    <script>
+      function makeGuess(){
+
       }
     </script>
     <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAId2iwSVkGJI9KGZ_B9AgDs44UeV1nQ2s&callback=initMap"></script>
