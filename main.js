@@ -1,37 +1,12 @@
-function initMap() {
-  var location = {lat: 37.869260, lng: -122.254811};
-  var marker;
-  //create the map
-  var map = new google.maps.Map(document.getElementById('map'), {
-
-    zoom: 0,
-    center: location
-  });
-  //create the Street View Panorama
-  var pano = new google.maps.StreetViewPanorama(document.getElementById('pano'), {
-        position: location,
-        zoom: 0,
-        addressControl: false
-      });
-  /*
-  * Adds a click event listener to the map.
-  *   If a marker has not been placed yet, place one at location of click;
-  *   otherwise change position of marker to click location.
-  */
-  google.maps.event.addListener(map, 'click', function(event) {
-    if (typeof marker === 'undefined') {
-      marker = new google.maps.Marker({
-        position: event.latLng,
-        map: map
-      });
-    } else {
-      marker.setPosition(event.latLng);
-    };
-  });
-}
-
-var Location() {
-  locations:[
+var position;
+var marker;
+/*
+* Location is an object with a large array of coordinate pairs
+*   with functions to select a random pair and return it as a
+*   LatLng object
+*/
+var Location = {
+  coordinateList:[
     "60.096,19.949",
     "40.940,19.716",
     "40.899,20.664",
@@ -2331,8 +2306,308 @@ var Location() {
     "16.469,107.58",
     "21.033,105.85"
   ],
-  lag
 
+  getRandomLocation:function() {
+    var random = Math.floor(Math.random() * this.coordinateList.length);
+    return this.coordinateList[random];
+  },
+  getCoordinate:function() {
+    var loc = this.getRandomLocation();
+    var latlng = loc.split(',');
+    var result = new google.maps.LatLng(latlng[0], latlng[1])
+    return result;
+  }
+};
+/*
+* initMap() initializes the map and streetViewPanorama
+*   with a random location and add a click event listener
+*   to add a marker to the map
+*/
+function initMap() {
+//position is set to a random coordinate pair
+  position = Location.getCoordinate();
+  //create the map
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 0,
+    center: position,
+    maxZoom: 10,
+    clickableIcons: false,
+    styles: [{
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#ebe3cd"
+          }
+        ]
+      },
+      {
+        "elementType": "labels.text.fill",
+        "stylers": [
+          {
+            "color": "#523735"
+          }
+        ]
+      },
+      {
+        "elementType": "labels.text.stroke",
+        "stylers": [
+          {
+            "color": "#f5f1e6"
+          }
+        ]
+      },
+      {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+          {
+            "color": "#c9b2a6"
+          }
+        ]
+      },
+      {
+        "featureType": "administrative.land_parcel",
+        "elementType": "geometry.stroke",
+        "stylers": [
+          {
+            "color": "#dcd2be"
+          }
+        ]
+      },
+      {
+        "featureType": "administrative.land_parcel",
+        "elementType": "labels.text.fill",
+        "stylers": [
+          {
+            "color": "#ae9e90"
+          }
+        ]
+      },
+      {
+        "featureType": "landscape.man_made",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "landscape.natural",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#dfd2ae"
+          }
+        ]
+      },
+      {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#dfd2ae"
+          }
+        ]
+      },
+      {
+        "featureType": "poi",
+        "elementType": "labels.text.fill",
+        "stylers": [
+          {
+            "color": "#93817c"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.attraction",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.business",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.park",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "color": "#a5b076"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.park",
+        "elementType": "labels.text.fill",
+        "stylers": [
+          {
+            "color": "#447530"
+          }
+        ]
+      },
+      {
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#f5f1e6"
+          }
+        ]
+      },
+      {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#fdfcf8"
+          }
+        ]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#f8c967"
+          }
+        ]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+          {
+            "color": "#e9bc62"
+          }
+        ]
+      },
+      {
+        "featureType": "road.highway.controlled_access",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#e98d58"
+          }
+        ]
+      },
+      {
+        "featureType": "road.highway.controlled_access",
+        "elementType": "geometry.stroke",
+        "stylers": [
+          {
+            "color": "#db8555"
+          }
+        ]
+      },
+      {
+        "featureType": "road.local",
+        "elementType": "labels.text.fill",
+        "stylers": [
+          {
+            "color": "#806b63"
+          }
+        ]
+      },
+      {
+        "featureType": "transit.line",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#dfd2ae"
+          }
+        ]
+      },
+      {
+        "featureType": "transit.line",
+        "elementType": "labels.text.fill",
+        "stylers": [
+          {
+            "color": "#8f7d77"
+          }
+        ]
+      },
+      {
+        "featureType": "transit.line",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+          {
+            "color": "#ebe3cd"
+          }
+        ]
+      },
+      {
+        "featureType": "transit.station",
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "#dfd2ae"
+          }
+        ]
+      },
+      {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "color": "#b9d3c2"
+          }
+        ]
+      },
+      {
+        "featureType": "water",
+        "elementType": "labels.text.fill",
+        "stylers": [
+          {
+            "color": "#92998d"
+          }
+        ]
+      }
+    ]
+  });
+  //create the Street View Panorama
+  var pano = new google.maps.StreetViewPanorama(document.getElementById('pano'), {
+        position: position,
+        zoom: 0,
+        addressControl: false
+  });
+  /*
+  * Adds a click event listener to the map.
+  *   If a marker has not been placed yet, place one at location of click;
+  *   otherwise change position of marker to click location.
+  */
+  google.maps.event.addListener(map, 'click', function(event) {
+    if (typeof marker === 'undefined') {
+      marker = new google.maps.Marker({
+        position: event.latLng,
+        map: map
+      });
+    } else {
+      marker.setPosition(event.latLng);
+    };
+  });
+}
+/*
+* calcScore() takes two LatLng objects, finds the distance between them
+*   then converts them to a score with a lower distance resulting in a higher score
+*/
+function calcScore(guess, position) {
+  //distance is found using google.maps api function
+  var distance = Math.floor(google.maps.geometry.spherical.computeDistanceBetween(guess, position)/1000);
+  var score = 5000-(Math.floor(distance/4));
+  return score;
 
-  return location;
+}
+/*
+* makeGuess() takes the current marker position and prints the score acheived
+*/
+function makeGuess(){
+  guess = marker.getPosition();
+  document.getElementById('score-text').innerHTML = 'Score: ' + calcScore(guess, position) + '<br>Please reload the page.';
 }
